@@ -32,9 +32,7 @@ final class Snapshotter
      */
     public function __construct(Adapter $snapshotAdapter, array $aggregateRepositories)
     {
-        foreach ($aggregateRepositories as $aggregateRepository) {
-            Assertion::isInstanceOf($aggregateRepository, AggregateRepository::class);
-        }
+        Assertion::allIsInstanceOf($aggregateRepositories, AggregateRepository::class);
 
         $this->snapshotAdapter = $snapshotAdapter;
         $this->aggregateRepositories = $aggregateRepositories;
