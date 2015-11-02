@@ -17,19 +17,16 @@ final class TakeSnapshot extends Command
     /**
      * @param string $aggregateType
      * @param string $aggregateId
-     * @param int $version
      * @return TakeSnapshot
      */
-    public static function withData($aggregateType, $aggregateId, $version)
+    public static function withData($aggregateType, $aggregateId)
     {
         Assertion::string($aggregateType);
         Assertion::string($aggregateId);
-        Assertion::min($version, 1);
 
         return new self([
             'aggregate_type' => $aggregateType,
             'aggregate_id' => $aggregateId,
-            'version' => $version,
         ]);
     }
 
@@ -47,13 +44,5 @@ final class TakeSnapshot extends Command
     public function aggregateId()
     {
         return $this->payload['aggregate_id'];
-    }
-
-    /**
-     * @return int
-     */
-    public function version()
-    {
-        return $this->payload['version'];
     }
 }

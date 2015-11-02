@@ -68,7 +68,7 @@ final class SnapshotPlugin implements Plugin
 
         foreach ($snapshots as $aggregateType) {
             foreach ($aggregateType as $aggregateId) {
-                $command = TakeSnapshot::withData($aggregateType, $aggregateId, $aggregateId['version']);
+                $command = TakeSnapshot::withData($aggregateType, $aggregateId);
                 $this->commandBus->dispatch($command);
             }
         }
