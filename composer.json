@@ -1,0 +1,53 @@
+{
+    "name": "prooph/snapshotter",
+    "description": "snapshot tool for prooph event-store",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "prooph",
+        "event-store",
+        "event-sourcing",
+        "ddd",
+        "snapshot"
+    ],
+    "authors": [
+        {
+            "name": "Alexander Miertsch",
+            "email": "contact@prooph.de",
+            "homepage": "http://www.prooph.de"
+        },
+        {
+            "name": "Sascha-Oliver Prolic",
+            "email": "saschaprolic@googlemail.com"
+        }
+    ],
+    "homepage": "http://getprooph.org/",
+    "require": {
+        "php": ">=5.5",
+        "beberlei/assert": "~2.3",
+        "prooph/common" : "~3.3",
+        "prooph/event-store" : "dev-develop",
+        "prooph/event-sourcing" : "dev-develop",
+        "prooph/service-bus" : "^4.6",
+        "prooph/event-store-bus-bridge" : "2.0-beta.2"
+    },
+    "require-dev" : {
+        "container-interop/container-interop": "^1.1",
+        "fabpot/php-cs-fixer": "1.7.*",
+        "phpunit/phpunit": "^4.8",
+        "satooshi/php-coveralls": "dev-master",
+        "zendframework/zend-servicemanager": "~2.6"
+    },
+    "suggest" : {
+        "container-interop/container-interop": "For usage of provided factories",
+    },
+    "autoload" : {
+        "psr-4" : {
+            "Prooph\\Snapshotter\\" : "src"
+        }
+    },
+    "autoload-dev" : {
+        "psr-4" : {
+            "ProophTest\\Snapshotter\\": "tests/"
+        }
+    }
+}
