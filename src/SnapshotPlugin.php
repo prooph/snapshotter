@@ -56,10 +56,10 @@ final class SnapshotPlugin implements Plugin
         $snapshots = [];
 
         foreach ($recordedEvents as $recordedEvent) {
-            $metadata = $recordedEvent->metadata();
-            if ($metadata['version'] % $this->versionStep !== 0) {
+            if ($recordedEvent->version() % $this->versionStep !== 0) {
                 continue;
             }
+            $metadata = $recordedEvent->metadata();
             if (!isset($metadata['aggregate_type']) || !isset($metadata['aggregate_id'])) {
                 continue;
             }
