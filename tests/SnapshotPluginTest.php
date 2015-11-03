@@ -25,7 +25,6 @@ use Prooph\ServiceBus\Plugin\Router\CommandRouter;
 use Prooph\Snapshotter\SnapshotPlugin;
 use Prooph\Snapshotter\TakeSnapshot;
 use ProophTest\EventStore\Mock\User;
-use ProophTest\EventStore\Mock\UserCreated;
 use ProophTest\EventStore\Mock\UsernameChanged;
 
 /**
@@ -53,7 +52,7 @@ final class SnapshotPluginTest extends TestCase
         $result = [];
 
         $router = new CommandRouter();
-        $router->route(TakeSnapshot::class)->to(function(TakeSnapshot $command) use (&$result) {
+        $router->route(TakeSnapshot::class)->to(function (TakeSnapshot $command) use (&$result) {
             $result[] = [
                 'aggregate_type' => $command->aggregateType(),
                 'aggregate_id' => $command->aggregateId()

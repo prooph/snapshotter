@@ -12,12 +12,7 @@
 namespace ProophTest\Snapshotter;
 
 use PHPUnit_Framework_TestCase as TestCase;
-use Prooph\Common\Event\ProophActionEventEmitter;
 use Prooph\EventStore\Aggregate\AggregateRepository;
-use Prooph\EventStore\Aggregate\AggregateType;
-use Prooph\EventStore\Aggregate\ConfigurableAggregateTranslator;
-use Prooph\EventStore\EventStore;
-use Prooph\EventStore\Adapter\InMemoryAdapter;
 use Prooph\EventStore\Snapshot\SnapshotStore;
 use Prooph\Snapshotter\Snapshotter;
 use Prooph\Snapshotter\TakeSnapshot;
