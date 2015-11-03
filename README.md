@@ -2,6 +2,8 @@
 
 Snapshot tool for the prooph event-store
 
+Take aggregate snapshots with ease
+
 Support
 -------
 

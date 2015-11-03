@@ -57,6 +57,7 @@ final class Snapshotter
 
     /**
      * @param TakeSnapshot $command
+     * @throws Exception\RuntimeException
      */
     public function __invoke(TakeSnapshot $command)
     {
@@ -76,7 +77,7 @@ final class Snapshotter
             AggregateType::fromAggregateRootClass($aggregateType),
             $command->aggregateId(),
             $aggregateRoot,
-            $repository->extractVersion($aggregateRoot),
+            $repository->extractAggregateVersion($aggregateRoot),
             $command->createdAt()
         ));
 
