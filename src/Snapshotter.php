@@ -16,6 +16,7 @@ use Prooph\EventStore\Aggregate\AggregateRepository;
 use Prooph\EventStore\Aggregate\AggregateType;
 use Prooph\EventStore\Snapshot\Snapshot;
 use Prooph\EventStore\Snapshot\SnapshotStore;
+use Prooph\Snapshotter\Exception\RuntimeException;
 
 /**
  * Class Snapshotter
@@ -42,6 +43,7 @@ final class Snapshotter
      */
     public function __construct(SnapshotStore $snapshotStore, array $aggregateRepositories)
     {
+        Assertion::notEmpty($aggregateRepositories);
         Assertion::allIsInstanceOf($aggregateRepositories, AggregateRepository::class);
 
         $this->snapshotStore = $snapshotStore;
@@ -65,6 +67,14 @@ final class Snapshotter
 
         $repository = $this->aggregateRepositories[$aggregateType];
         $aggregateRoot = $repository->getAggregateRoot($command->aggregateId());
+
+        if (null === $aggregateRoot) {
+            throw new RuntimeException(sprintf(
+                'Could not find aggregate root %s with id %s',
+                $aggregateType,
+                $command->aggregateId()
+            ));
+        }
 
         $this->snapshotStore->save(new Snapshot(
             AggregateType::fromAggregateRootClass($aggregateType),

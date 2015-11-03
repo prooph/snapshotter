@@ -35,25 +35,17 @@ use ProophTest\EventStore\Mock\UsernameChanged;
 final class SnapshotPluginTest extends TestCase
 {
     /**
-     * @var EventStore
-     */
-    protected $eventStore;
-
-    protected function setUp()
-    {
-        $inMemoryAdapter = new InMemoryAdapter();
-        $eventEmitter    = new ProophActionEventEmitter();
-
-        $this->eventStore = new EventStore($inMemoryAdapter, $eventEmitter);
-    }
-
-    /**
      * @test
      */
     public function it_publishes_take_snapshot_commands_for_all_known_aggregates()
     {
+        $inMemoryAdapter = new InMemoryAdapter();
+        $eventEmitter    = new ProophActionEventEmitter();
+
+        $eventStore = new EventStore($inMemoryAdapter, $eventEmitter);
+
         $repository = new AggregateRepository(
-            $this->eventStore,
+            $eventStore,
             AggregateType::fromAggregateRootClass('ProophTest\EventStore\Mock\User'),
             new ConfigurableAggregateTranslator()
         );
@@ -72,23 +64,23 @@ final class SnapshotPluginTest extends TestCase
         $commandBus->utilize($router);
 
         $plugin = new SnapshotPlugin($commandBus, 2);
-        $plugin->setUp($this->eventStore);
+        $plugin->setUp($eventStore);
 
-        $this->eventStore->beginTransaction();
+        $eventStore->beginTransaction();
 
-        $this->eventStore->create(new Stream(new StreamName('event_stream'), new \ArrayIterator()));
+        $eventStore->create(new Stream(new StreamName('event_stream'), new \ArrayIterator()));
 
-        $this->eventStore->commit();
+        $eventStore->commit();
 
-        $this->eventStore->beginTransaction();
+        $eventStore->beginTransaction();
 
         $user = User::create('Alex', 'contact@prooph.de');
 
         $repository->addAggregateRoot($user);
 
-        $this->eventStore->commit();
+        $eventStore->commit();
 
-        $this->eventStore->beginTransaction();
+        $eventStore->beginTransaction();
 
         $user = $repository->getAggregateRoot($user->getId()->toString());
 
@@ -96,9 +88,9 @@ final class SnapshotPluginTest extends TestCase
         $user->changeName('Jane');
         $user->changeName('Jim');
 
-        $this->eventStore->commit();
+        $eventStore->commit();
 
-        $this->eventStore->beginTransaction();
+        $eventStore->beginTransaction();
 
         $eventWithoutMetadata1 = UsernameChanged::with(
             ['new_name' => 'John Doe'],
@@ -110,12 +102,12 @@ final class SnapshotPluginTest extends TestCase
             6
         );
 
-        $this->eventStore->appendTo(new StreamName('event_stream'), new \ArrayIterator([
+        $eventStore->appendTo(new StreamName('event_stream'), new \ArrayIterator([
             $eventWithoutMetadata1,
             $eventWithoutMetadata2
         ]));
 
-        $this->eventStore->commit();
+        $eventStore->commit();
 
         $this->assertCount(2, $result);
         $this->assertArrayHasKey('aggregate_type', $result[0]);
