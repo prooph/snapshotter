@@ -74,6 +74,4 @@ final class SnapshotPluginFactory implements RequiresConfig, RequiresMandatoryOp
             'version_step'
         ];
     }
-
-
 }
