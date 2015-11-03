@@ -34,19 +34,6 @@ final class SnapshotterTest extends TestCase
      */
     public function it_takes_snapshots()
     {
-        /*
-        $inMemoryAdapter = new InMemoryAdapter();
-        $eventEmitter    = new ProophActionEventEmitter();
-
-        $eventStore = new EventStore($inMemoryAdapter, $eventEmitter);
-
-        $repository = new AggregateRepository(
-            $eventStore,
-            AggregateType::fromAggregateRootClass('ProophTest\EventStore\Mock\User'),
-            new ConfigurableAggregateTranslator()
-        );
-        */
-
         $user = User::create('Alex', 'contact@prooph.de');
 
         $repository = $this->prophesize(AggregateRepository::class);
