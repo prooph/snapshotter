@@ -69,7 +69,6 @@ final class SnapshotPlugin implements Plugin
                 continue;
             }
             $metadata = $recordedEvent->metadata();
-            //var_dump($recordedEvent->version(), $metadata); die;
             if (!isset($metadata['aggregate_type']) || !isset($metadata['aggregate_id'])) {
                 continue;
             }
