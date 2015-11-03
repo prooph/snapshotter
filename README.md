@@ -8,7 +8,7 @@ Support
 -------
 
 - Ask questions on [prooph-users](https://groups.google.com/forum/?hl=de#!forum/prooph) google group.
-- File issues at [https://github.com/prooph/snapshot-mongodb-adapter/issues](https://github.com/prooph/snapshot-mongodb-adapter/issues).
+- File issues at [https://github.com/prooph/snapshotter/issues](https://github.com/prooph/snapshotter/issues).
 - Say hello in the [prooph gitter](https://gitter.im/prooph/improoph) chat.
 
 Contribute
