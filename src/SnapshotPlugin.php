@@ -54,7 +54,7 @@ final class SnapshotPlugin implements Plugin
     }
 
     /**
-     * Publish recorded events on the event bus
+     * Take snapshots on event-store::commit.post
      *
      * @param ActionEvent $actionEvent
      */
