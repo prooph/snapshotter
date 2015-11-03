@@ -37,22 +37,15 @@ final class Snapshotter
     private $aggregateRepositories;
 
     /**
-     * @var bool
-     */
-    private $clearIdentityMap;
-
-    /**
      * @param SnapshotStore $snapshotStore
      * @param AggregateRepository[] $aggregateRepositories
      */
-    public function __construct(SnapshotStore $snapshotStore, array $aggregateRepositories, $clearIdentityMap)
+    public function __construct(SnapshotStore $snapshotStore, array $aggregateRepositories)
     {
         Assertion::allIsInstanceOf($aggregateRepositories, AggregateRepository::class);
-        Assertion::boolean($clearIdentityMap);
 
         $this->snapshotStore = $snapshotStore;
         $this->aggregateRepositories = $aggregateRepositories;
-        $this->clearIdentityMap = $clearIdentityMap;
     }
 
     /**
@@ -80,9 +73,5 @@ final class Snapshotter
             $repository->extractAggregateVersion($aggregateRoot),
             $command->createdAt()
         ));
-
-        if ($this->clearIdentityMap) {
-            $repository->clearIdentityMap();
-        }
     }
 }

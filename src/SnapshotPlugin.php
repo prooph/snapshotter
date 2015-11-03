@@ -50,7 +50,7 @@ final class SnapshotPlugin implements Plugin
      */
     public function setUp(EventStore $eventStore)
     {
-        $eventStore->getActionEventEmitter()->attachListener('commit.post', [$this, 'onEventStoreCommitPost']);
+        $eventStore->getActionEventEmitter()->attachListener('commit.post', [$this, 'onEventStoreCommitPost'], -1000);
     }
 
     /**
@@ -69,14 +69,15 @@ final class SnapshotPlugin implements Plugin
                 continue;
             }
             $metadata = $recordedEvent->metadata();
+            //var_dump($recordedEvent->version(), $metadata); die;
             if (!isset($metadata['aggregate_type']) || !isset($metadata['aggregate_id'])) {
                 continue;
             }
-            $snapshots['aggregate_type']['aggregate_id'] = $metadata['version'];
+            $snapshots[$metadata['aggregate_type']][] = $metadata['aggregate_id'];
         }
 
-        foreach ($snapshots as $aggregateType) {
-            foreach ($aggregateType as $aggregateId) {
+        foreach ($snapshots as $aggregateType => $aggregateIds) {
+            foreach ($aggregateIds as $aggregateId) {
                 $command = TakeSnapshot::withData($aggregateType, $aggregateId);
                 $this->commandBus->dispatch($command);
             }

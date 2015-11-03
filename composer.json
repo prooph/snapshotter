@@ -47,7 +47,8 @@
     },
     "autoload-dev" : {
         "psr-4" : {
-            "ProophTest\\Snapshotter\\": "tests/"
+            "ProophTest\\Snapshotter\\": "tests/",
+            "ProophTest\\EventStore\\": "vendor/prooph/event-store/tests/"
         }
     }
 }
