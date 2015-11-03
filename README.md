@@ -8,6 +8,11 @@ Take aggregate snapshots with ease
 [![Coverage Status](https://coveralls.io/repos/prooph/snapshotter/badge.svg?branch=master&service=github)](https://coveralls.io/github/prooph/snapshotter?branch=master)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/prooph/improoph)
 
+Configuration
+-------------
+
+see: [docs](docs/configuration.md)
+
 Support
 -------
 
