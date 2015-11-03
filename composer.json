@@ -32,13 +32,15 @@
     },
     "require-dev" : {
         "container-interop/container-interop": "^1.1",
+        "sandrokeil/interop-config": "^0.3.1",
         "fabpot/php-cs-fixer": "1.7.*",
         "phpunit/phpunit": "^4.8",
         "satooshi/php-coveralls": "dev-master",
         "zendframework/zend-servicemanager": "~2.6"
     },
     "suggest" : {
-        "container-interop/container-interop": "For usage of provided factories"
+        "container-interop/container-interop": "For usage of provided factories",
+        "sandrokeil/interop-config": "For usage of provided factories"
     },
     "autoload" : {
         "psr-4" : {
