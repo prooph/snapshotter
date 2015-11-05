@@ -23,7 +23,7 @@
     ],
     "homepage": "http://getprooph.org/",
     "require": {
-        "php": ">=5.5",
+        "php": "~5.5|~7.0",
         "beberlei/assert": "~2.3",
         "prooph/common" : "~3.3",
         "prooph/event-store" : "dev-develop as 6.0-beta.1",
