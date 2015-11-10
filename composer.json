@@ -21,7 +21,6 @@
             "email": "saschaprolic@googlemail.com"
         }
     ],
-    "homepage": "http://getprooph.org/",
     "require": {
         "php": "~5.5|~7.0",
         "beberlei/assert": "~2.3",
@@ -37,7 +36,8 @@
         "fabpot/php-cs-fixer": "1.7.*",
         "phpunit/phpunit": "^4.8",
         "satooshi/php-coveralls": "dev-master",
-        "zendframework/zend-servicemanager": "~2.6"
+        "zendframework/zend-servicemanager": "~2.6",
+        "tobiju/bookdown-bootswatch-templates": "1.0.x-dev"
     },
     "suggest" : {
         "container-interop/container-interop": "For usage of provided factories",
