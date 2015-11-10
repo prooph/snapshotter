@@ -1,0 +1,9 @@
+{
+  "title": "Snapshot tool for the prooph event-store",
+  "content": [
+    {"intro": "../README.md"},
+    {"configuration": "configuration.md"}
+  ],
+  "target": "./html",
+  "template": "../vendor/tobiju/bookdown-bootswatch-templates/templates/cerulean/main.php"
+}
