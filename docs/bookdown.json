@@ -5,5 +5,5 @@
     {"configuration": "configuration.md"}
   ],
   "target": "./html",
-  "template": "../vendor/tobiju/bookdown-bootswatch-templates/templates/cerulean/main.php"
+  "template": "../vendor/tobiju/bookdown-bootswatch-templates/templates/main.php"
 }

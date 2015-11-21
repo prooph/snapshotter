@@ -37,7 +37,7 @@
         "phpunit/phpunit": "^4.8",
         "satooshi/php-coveralls": "dev-master",
         "zendframework/zend-servicemanager": "~2.6",
-        "tobiju/bookdown-bootswatch-templates": "1.0.x-dev"
+        "tobiju/bookdown-bootswatch-templates": "^0.2.0"
     },
     "suggest" : {
         "container-interop/container-interop": "For usage of provided factories",
