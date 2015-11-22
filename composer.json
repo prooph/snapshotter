@@ -25,10 +25,10 @@
         "php": "~5.5|~7.0",
         "beberlei/assert": "~2.3",
         "prooph/common" : "~3.3",
-        "prooph/event-store" : "dev-develop as 6.0-beta.1",
-        "prooph/event-sourcing" : "dev-develop",
-        "prooph/service-bus" : "^4.6",
-        "prooph/event-store-bus-bridge" : "2.0-beta.2"
+        "prooph/event-store" : "^6.0",
+        "prooph/event-sourcing" : "^4.0",
+        "prooph/service-bus" : "^5.0",
+        "prooph/event-store-bus-bridge" : "^2.0"
     },
     "require-dev" : {
         "container-interop/container-interop": "^1.1",
