@@ -45,19 +45,11 @@ final class SnapshotterFactory implements RequiresConfig, RequiresMandatoryOptio
     }
 
     /**
-     * @return string
+     * @interitdoc
      */
-    public function vendorName()
+    public function dimensions()
     {
-        return 'prooph';
-    }
-
-    /**
-     * @return string
-     */
-    public function packageName()
-    {
-        return 'snapshotter';
+        return ['prooph', 'snapshotter'];
     }
 
     /**
