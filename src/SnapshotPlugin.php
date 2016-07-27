@@ -60,7 +60,7 @@ final class SnapshotPlugin implements Plugin
      */
     public function onEventStoreCommitPost(ActionEvent $actionEvent)
     {
-        $recordedEvents = $actionEvent->getParam('recordedEvents', []);
+        $recordedEvents = $actionEvent->getParam('recordedEvents', new \ArrayIterator());
 
         $snapshots = [];
 
