@@ -21,6 +21,8 @@
             "email": "saschaprolic@googlemail.com"
         }
     ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
         "php": "^7.1",
         "prooph/common" : "dev-php_7_1 as 4.0.0",

@@ -1,12 +1,11 @@
 <?php
-/*
- * This file is part of prooph/snapshotter.
- * (c) 2014-2015 prooph software GmbH <contact@prooph.de>
+/**
+ * This file is part of the prooph/snapshotter.
+ * (c) 2015-2016 prooph software GmbH <contact@prooph.de>
+ * (c) 2015-2016 Sascha-Oliver Prolic <saschaprolic@googlemail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * Date: 11/03/15 - 06:06 PM
  */
 
 namespace Prooph\Snapshotter\Container;
