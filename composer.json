@@ -27,7 +27,6 @@
         "php": "^7.1",
         "prooph/common" : "dev-php_7_1 as 4.0.0",
         "prooph/event-store" : "dev-php_7_1 as 7.0.0",
-        "prooph/event-sourcing" : "dev-php_7_1 as 5.0.0",
         "prooph/service-bus" : "dev-php_7_1 as 6.0.0",
         "prooph/event-store-bus-bridge" : "dev-php_7_1 as 3.0.0"
     },
