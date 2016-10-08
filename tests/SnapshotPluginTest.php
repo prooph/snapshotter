@@ -8,6 +8,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace ProophTest\Snapshotter;
 
 use PHPUnit_Framework_TestCase as TestCase;
@@ -35,7 +37,7 @@ final class SnapshotPluginTest extends TestCase
     /**
      * @test
      */
-    public function it_publishes_take_snapshot_commands_for_all_known_aggregates()
+    public function it_publishes_take_snapshot_commands_for_all_known_aggregates(): void
     {
         $inMemoryAdapter = new InMemoryAdapter();
         $eventEmitter    = new ProophActionEventEmitter();

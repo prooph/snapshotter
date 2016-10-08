@@ -8,6 +8,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace ProophTest\Snapshotter;
 
 use PHPUnit_Framework_TestCase as TestCase;
@@ -26,7 +28,7 @@ final class SnapshotterTest extends TestCase
     /**
      * @test
      */
-    public function it_takes_snapshots()
+    public function it_takes_snapshots(): void
     {
         $user = User::create('Alex', 'contact@prooph.de');
 
@@ -46,10 +48,11 @@ final class SnapshotterTest extends TestCase
 
     /**
      * @test
-     * @expectedException \Assert\InvalidArgumentException
      */
-    public function it_throws_exception_when_no_repository_given()
+    public function it_throws_exception_when_no_repository_given(): void
     {
+        $this->expectException(\Assert\InvalidArgumentException::class);
+
         $snapshotStore = $this->prophesize(SnapshotStore::class);
 
         new Snapshotter($snapshotStore->reveal(), []);
@@ -57,11 +60,12 @@ final class SnapshotterTest extends TestCase
 
     /**
      * @test
-     * @expectedException \Prooph\Snapshotter\Exception\RuntimeException
-     * @expectedExceptionMessage No repository for aggregate type ProophTest\EventStore\Mock\Todo configured
      */
-    public function it_throws_exception_when_aggregate_root_cannot_get_handled()
+    public function it_throws_exception_when_aggregate_root_cannot_get_handled(): void
     {
+        $this->expectException(\Prooph\Snapshotter\Exception\RuntimeException::class);
+        $this->expectExceptionMessage('No repository for aggregate type ProophTest\EventStore\Mock\Todo configured');
+
         $repository = $this->prophesize(AggregateRepository::class);
 
         $snapshotStore = $this->prophesize(SnapshotStore::class);
@@ -75,11 +79,12 @@ final class SnapshotterTest extends TestCase
 
     /**
      * @test
-     * @expectedException \Prooph\Snapshotter\Exception\RuntimeException
-     * @expectedExceptionMessage Could not find aggregate root
      */
-    public function it_throws_exception_when_aggregate_root_not_found()
+    public function it_throws_exception_when_aggregate_root_not_found(): void
     {
+        $this->expectException(\Prooph\Snapshotter\Exception\RuntimeException::class);
+        $this->expectExceptionMessage('Could not find aggregate root');
+
         $repository = $this->prophesize(AggregateRepository::class);
 
         $snapshotStore = $this->prophesize(SnapshotStore::class);

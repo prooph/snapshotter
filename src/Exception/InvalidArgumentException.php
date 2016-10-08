@@ -13,9 +13,9 @@ declare(strict_types=1);
 namespace Prooph\Snapshotter\Exception;
 
 /**
- * Class RuntimeException
+ * Class InvalidArgumentException
  * @package Prooph\Snapshotter\Exception
  */
-final class RuntimeException extends \RuntimeException implements SnapshotterException
+final class InvalidArgumentException extends \InvalidArgumentException implements SnapshotterException
 {
 }

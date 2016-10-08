@@ -8,6 +8,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Prooph\Snapshotter;
 
 use Assert\Assertion;
@@ -50,14 +52,13 @@ final class Snapshotter
     }
 
     /**
-     * @param TakeSnapshot $command
      * @throws Exception\RuntimeException
      */
-    public function __invoke(TakeSnapshot $command)
+    public function __invoke(TakeSnapshot $command): void
     {
         $aggregateType = $command->aggregateType();
 
-        if (!isset($this->aggregateRepositories[$aggregateType])) {
+        if (! isset($this->aggregateRepositories[$aggregateType])) {
             throw new Exception\RuntimeException(sprintf(
                 'No repository for aggregate type %s configured',
                 $command->aggregateType()

@@ -8,6 +8,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Prooph\Snapshotter;
 
 use Assert\Assertion;
@@ -22,12 +24,7 @@ final class TakeSnapshot extends Command
 {
     use PayloadTrait;
 
-    /**
-     * @param string $aggregateType
-     * @param string $aggregateId
-     * @return TakeSnapshot
-     */
-    public static function withData($aggregateType, $aggregateId)
+    public static function withData(string $aggregateType, string $aggregateId): TakeSnapshot
     {
         Assertion::string($aggregateType);
         Assertion::string($aggregateId);
@@ -41,7 +38,7 @@ final class TakeSnapshot extends Command
     /**
      * @return string
      */
-    public function aggregateType()
+    public function aggregateType(): string
     {
         return $this->payload['aggregate_type'];
     }
@@ -49,7 +46,7 @@ final class TakeSnapshot extends Command
     /**
      * @return string
      */
-    public function aggregateId()
+    public function aggregateId(): string
     {
         return $this->payload['aggregate_id'];
     }

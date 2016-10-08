@@ -8,6 +8,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace ProophTest\Snapshotter\Container;
 
 use Interop\Container\ContainerInterface;
@@ -26,7 +28,7 @@ final class SnapshotterFactoryTest extends TestCase
     /**
      * @test
      */
-    public function it_creates_snapshot_plugin()
+    public function it_creates_snapshot_plugin(): void
     {
         $snapshotStore = $this->prophesize(SnapshotStore::class);
         $aggregateRepository = $this->prophesize(AggregateRepository::class);
@@ -35,8 +37,10 @@ final class SnapshotterFactoryTest extends TestCase
         $container->get('config')->willReturn([
             'prooph' => [
                 'snapshotter' => [
-                    'aggregate_repositories' => [
-                        'foo' => AggregateRepository::class,
+                    'default' => [
+                        'aggregate_repositories' => [
+                            'foo' => AggregateRepository::class,
+                        ]
                     ]
                 ]
             ]

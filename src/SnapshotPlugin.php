@@ -8,6 +8,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Prooph\Snapshotter;
 
 use Assert\Assertion;
@@ -32,32 +34,22 @@ final class SnapshotPlugin implements Plugin
      */
     private $versionStep;
 
-    /**
-     * @param CommandBus $commandBus
-     * @param int $versionStep
-     */
-    public function __construct(CommandBus $commandBus, $versionStep)
+    public function __construct(CommandBus $commandBus, int $versionStep)
     {
         Assertion::min($versionStep, 1);
         $this->commandBus = $commandBus;
         $this->versionStep = $versionStep;
     }
 
-    /**
-     * @param EventStore $eventStore
-     * @return void
-     */
-    public function setUp(EventStore $eventStore)
+    public function setUp(EventStore $eventStore): void
     {
         $eventStore->getActionEventEmitter()->attachListener('commit.post', [$this, 'onEventStoreCommitPost'], -1000);
     }
 
     /**
      * Take snapshots on event-store::commit.post
-     *
-     * @param ActionEvent $actionEvent
      */
-    public function onEventStoreCommitPost(ActionEvent $actionEvent)
+    public function onEventStoreCommitPost(ActionEvent $actionEvent): void
     {
         $recordedEvents = $actionEvent->getParam('recordedEvents', new \ArrayIterator());
 
@@ -68,7 +60,7 @@ final class SnapshotPlugin implements Plugin
                 continue;
             }
             $metadata = $recordedEvent->metadata();
-            if (!isset($metadata['aggregate_type']) || !isset($metadata['aggregate_id'])) {
+            if (! isset($metadata['aggregate_type']) || ! isset($metadata['aggregate_id'])) {
                 continue;
             }
             $snapshots[$metadata['aggregate_type']][] = $metadata['aggregate_id'];

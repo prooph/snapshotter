@@ -8,6 +8,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace ProophTest\Snapshotter\Container;
 
 use Interop\Container\ContainerInterface;
@@ -25,7 +27,7 @@ final class SnapshotPluginFactoryTest extends TestCase
     /**
      * @test
      */
-    public function it_creates_snapshot_plugin()
+    public function it_creates_snapshot_plugin(): void
     {
         $commandBus = $this->prophesize(CommandBus::class);
         $container = $this->prophesize(ContainerInterface::class);

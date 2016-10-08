@@ -8,61 +8,80 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Prooph\Snapshotter\Container;
 
 use Interop\Config\ConfigurationTrait;
 use Interop\Config\ProvidesDefaultOptions;
 use Interop\Config\RequiresConfig;
-use Interop\Config\RequiresMandatoryOptions;
+use Interop\Config\RequiresConfigId;
 use Interop\Container\ContainerInterface;
 use Prooph\ServiceBus\CommandBus;
+use Prooph\Snapshotter\Exception\InvalidArgumentException;
 use Prooph\Snapshotter\SnapshotPlugin;
 
 /**
  * Class SnapshotPluginFactory
  * @package Prooph\Snapshotter\Container
  */
-final class SnapshotPluginFactory implements RequiresConfig, RequiresMandatoryOptions, ProvidesDefaultOptions
+final class SnapshotPluginFactory implements RequiresConfig, RequiresConfigId, ProvidesDefaultOptions
 {
     use ConfigurationTrait;
 
     /**
-     * @param ContainerInterface $container
-     * @return SnapshotPlugin
+     * @var string
      */
-    public function __invoke(ContainerInterface $container)
-    {
-        $config = $container->get('config');
-        $config = $this->options($config);
-
-        return new SnapshotPlugin($container->get(CommandBus::class), $config['version_step']);
-    }
+    private $configId;
 
     /**
-     * @interitdoc
+     * Creates a new instance from a specified config, specifically meant to be used as static factory.
+     *
+     * In case you want to use another config key than provided by the factories, you can add the following factory to
+     * your config:
+     *
+     * <code>
+     * <?php
+     * return [
+     *     'prooph.snapshotter.service_name' => [SnapshotPluginFactory::class, 'service_name'],
+     * ];
+     * </code>
+     *
+     * @throws InvalidArgumentException
      */
-    public function dimensions()
+    public static function __callStatic(string $name, array $arguments): SnapshotPlugin
+    {
+        if (! isset($arguments[0]) || ! $arguments[0] instanceof ContainerInterface) {
+            throw new InvalidArgumentException(
+                sprintf('The first argument must be of type %s', ContainerInterface::class)
+            );
+        }
+        return (new static($name))->__invoke($arguments[0]);
+    }
+
+    public function __construct(string $configId = 'default')
+    {
+        $this->configId = $configId;
+    }
+
+    public function __invoke(ContainerInterface $container): SnapshotPlugin
+    {
+        $config = $container->get('config');
+        $config = $this->options($config, $this->configId);
+
+        return new SnapshotPlugin($container->get($config['command_bus']), $config['version_step']);
+    }
+
+    public function dimensions(): array
     {
         return ['prooph', 'snapshotter'];
     }
 
-    /**
-     * @return array
-     */
-    public function defaultOptions()
+    public function defaultOptions(): array
     {
         return [
-            'version_step' => 5
-        ];
-    }
-
-    /**
-     * @return array
-     */
-    public function mandatoryOptions()
-    {
-        return [
-            'version_step'
+            'version_step' => 5,
+            'command_bus' => CommandBus::class,
         ];
     }
 }
