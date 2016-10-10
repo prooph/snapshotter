@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Prooph\Snapshotter;
 
-use Assert\Assertion;
 use Prooph\Common\Messaging\Command;
 use Prooph\Common\Messaging\PayloadTrait;
 
