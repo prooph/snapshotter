@@ -26,9 +26,6 @@ final class TakeSnapshot extends Command
 
     public static function withData(string $aggregateType, string $aggregateId): TakeSnapshot
     {
-        Assertion::string($aggregateType);
-        Assertion::string($aggregateId);
-
         return new self([
             'aggregate_type' => $aggregateType,
             'aggregate_id' => $aggregateId,
