@@ -36,7 +36,7 @@ final class SnapshotPluginFactory implements RequiresConfig, RequiresMandatoryOp
         $config = $container->get('config');
         $config = $this->options($config);
 
-        return new SnapshotPlugin($container->get(CommandBus::class), $config['version_step']);
+        return new SnapshotPlugin($container->get(CommandBus::class), $config['version_step'], $config['event_names']);
     }
 
     /**
@@ -53,7 +53,8 @@ final class SnapshotPluginFactory implements RequiresConfig, RequiresMandatoryOp
     public function defaultOptions()
     {
         return [
-            'version_step' => 5
+            'version_step' => 5,
+            'event_names' => [],
         ];
     }
 

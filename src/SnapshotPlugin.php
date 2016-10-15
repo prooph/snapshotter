@@ -34,14 +34,31 @@ final class SnapshotPlugin implements Plugin
     private $versionStep;
 
     /**
+     * List of event names to take snapshot
+     *
+     * @var array
+     */
+    private $eventNames;
+
+    /**
+     * Shortcut to determine if event names available
+     *
+     * @var bool
+     */
+    private $hasEventNames;
+
+    /**
      * @param CommandBus $commandBus
      * @param int $versionStep
+     * @param array $eventNames
      */
-    public function __construct(CommandBus $commandBus, $versionStep)
+    public function __construct(CommandBus $commandBus, $versionStep, array $eventNames = [])
     {
         Assertion::min($versionStep, 1);
         $this->commandBus = $commandBus;
         $this->versionStep = $versionStep;
+        $this->eventNames = $eventNames;
+        $this->hasEventNames = !empty($eventNames);
     }
 
     /**
@@ -64,12 +81,17 @@ final class SnapshotPlugin implements Plugin
 
         $snapshots = [];
 
+        /* @var $recordedEvent \Prooph\Common\Messaging\Message */
         foreach ($recordedEvents as $recordedEvent) {
-            if ($recordedEvent->version() % $this->versionStep !== 0) {
+            $doSnapshot = $recordedEvent->version() % $this->versionStep === 0;
+
+            if (false === $doSnapshot && false === $this->hasEventNames) {
                 continue;
             }
             $metadata = $recordedEvent->metadata();
-            if (!isset($metadata['aggregate_type']) || !isset($metadata['aggregate_id'])) {
+            if (!isset($metadata['aggregate_type'], $metadata['aggregate_id'])
+                || (false === $doSnapshot && !in_array($recordedEvent->messageName(), $this->eventNames, true))
+            ) {
                 continue;
             }
             $snapshots[$metadata['aggregate_type']][] = $metadata['aggregate_id'];
