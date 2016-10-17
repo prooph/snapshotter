@@ -35,12 +35,25 @@ final class SnapshotPluginFactoryTest extends TestCase
             'prooph' => [
                 'snapshotter' => [
                     'version_step' => 5,
-                ]
-            ]
+                    'event_names' => ['awesomeEvent'],
+                ],
+            ],
         ]);
         $container->get(CommandBus::class)->willReturn($commandBus->reveal());
 
         $factory = new SnapshotPluginFactory();
-        $this->assertInstanceOf(SnapshotPlugin::class, $factory($container->reveal()));
+        $snapshotPlugin =  $factory($container->reveal());
+
+        $this->assertInstanceOf(SnapshotPlugin::class, $snapshotPlugin);
+
+        $reflectionClass = new \ReflectionClass($snapshotPlugin);
+        $versionStepProperty = $reflectionClass->getProperty('versionStep');
+        $versionStepProperty->setAccessible(true);
+        $eventNamesProperty = $reflectionClass->getProperty('eventNames');
+        $eventNamesProperty->setAccessible(true);
+
+        $this->assertSame(5, $versionStepProperty->getValue($snapshotPlugin));
+        $this->assertArrayHasKey(0, $eventNamesProperty->getValue($snapshotPlugin));
+        $this->assertSame('awesomeEvent', $eventNamesProperty->getValue($snapshotPlugin)[0]);
     }
 }

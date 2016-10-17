@@ -34,26 +34,36 @@ use ProophTest\EventStore\Mock\UsernameChanged;
 final class SnapshotPluginTest extends TestCase
 {
     /**
-     * @test
+     * @var EventStore
      */
-    public function it_publishes_take_snapshot_commands_for_all_known_aggregates()
+    private $eventStore;
+
+    /**
+     * @var AggregateRepository
+     */
+    private $repository;
+
+    private $result;
+
+    public function setUp()
     {
         $inMemoryAdapter = new InMemoryAdapter();
         $eventEmitter    = new ProophActionEventEmitter();
 
-        $eventStore = new EventStore($inMemoryAdapter, $eventEmitter);
+        $this->eventStore = new EventStore($inMemoryAdapter, $eventEmitter);
 
-        $repository = new AggregateRepository(
-            $eventStore,
+        $this->repository = new AggregateRepository(
+            $this->eventStore,
             AggregateType::fromAggregateRootClass('ProophTest\EventStore\Mock\User'),
             new ConfigurableAggregateTranslator()
         );
 
-        $result = [];
+        $this->result = [];
+        $self = $this;
 
         $router = new CommandRouter();
-        $router->route(TakeSnapshot::class)->to(function (TakeSnapshot $command) use (&$result) {
-            $result[] = [
+        $router->route(TakeSnapshot::class)->to(function (TakeSnapshot $command) use ($self) {
+            $self->result[] = [
                 'aggregate_type' => $command->aggregateType(),
                 'aggregate_id' => $command->aggregateId()
             ];
@@ -63,33 +73,39 @@ final class SnapshotPluginTest extends TestCase
         $commandBus->utilize($router);
 
         $plugin = new SnapshotPlugin($commandBus, 2);
-        $plugin->setUp($eventStore);
+        $plugin->setUp($this->eventStore);
 
-        $eventStore->beginTransaction();
+        $this->eventStore->beginTransaction();
 
-        $eventStore->create(new Stream(new StreamName('event_stream'), new \ArrayIterator()));
+        $this->eventStore->create(new Stream(new StreamName('event_stream'), new \ArrayIterator()));
 
-        $eventStore->commit();
+        $this->eventStore->commit();
+    }
 
-        $eventStore->beginTransaction();
+    /**
+     * @test
+     */
+    public function it_publishes_take_snapshot_commands_for_all_known_aggregates()
+    {
+        $this->eventStore->beginTransaction();
 
         $user = User::create('Alex', 'contact@prooph.de');
 
-        $repository->addAggregateRoot($user);
+        $this->repository->addAggregateRoot($user);
 
-        $eventStore->commit();
+        $this->eventStore->commit();
 
-        $eventStore->beginTransaction();
+        $this->eventStore->beginTransaction();
 
-        $user = $repository->getAggregateRoot($user->getId()->toString());
+        $user = $this->repository->getAggregateRoot($user->getId()->toString());
 
         $user->changeName('John');
         $user->changeName('Jane');
         $user->changeName('Jim');
 
-        $eventStore->commit();
+        $this->eventStore->commit();
 
-        $eventStore->beginTransaction();
+        $this->eventStore->beginTransaction();
 
         $eventWithoutMetadata1 = UsernameChanged::with(
             ['new_name' => 'John Doe'],
@@ -101,19 +117,59 @@ final class SnapshotPluginTest extends TestCase
             6
         );
 
-        $eventStore->appendTo(new StreamName('event_stream'), new \ArrayIterator([
+        $this->eventStore->appendTo(new StreamName('event_stream'), new \ArrayIterator([
             $eventWithoutMetadata1,
             $eventWithoutMetadata2
         ]));
 
-        $eventStore->commit();
+        $this->eventStore->commit();
 
-        $this->assertCount(2, $result);
-        $this->assertArrayHasKey('aggregate_type', $result[0]);
-        $this->assertArrayHasKey('aggregate_id', $result[0]);
-        $this->assertArrayHasKey('aggregate_type', $result[1]);
-        $this->assertArrayHasKey('aggregate_id', $result[1]);
-        $this->assertEquals(User::class, $result[0]['aggregate_type']);
-        $this->assertEquals(User::class, $result[1]['aggregate_type']);
+        $this->assertCount(2, $this->result);
+        $this->assertArrayHasKey('aggregate_type', $this->result[0]);
+        $this->assertArrayHasKey('aggregate_id', $this->result[0]);
+        $this->assertArrayHasKey('aggregate_type', $this->result[1]);
+        $this->assertArrayHasKey('aggregate_id', $this->result[1]);
+        $this->assertEquals(User::class, $this->result[0]['aggregate_type']);
+        $this->assertEquals(User::class, $this->result[1]['aggregate_type']);
+    }
+
+    /**
+     * @test
+     */
+    public function it_publishes_take_snapshot_commands_by_event_name()
+    {
+        $this->eventStore->beginTransaction();
+
+        $user = User::create('Alex', 'contact@prooph.de');
+
+        $this->repository->addAggregateRoot($user);
+
+        $this->eventStore->commit();
+
+        $this->eventStore->beginTransaction();
+
+        $user = $this->repository->getAggregateRoot($user->getId()->toString());
+
+        $user->changeName('Jim');
+
+        $this->eventStore->commit();
+
+        $this->eventStore->beginTransaction();
+
+        $eventWithoutMetadata1 = UsernameChanged::with(
+            ['new_name' => 'John Doe'],
+            5
+        );
+
+        $this->eventStore->appendTo(new StreamName('event_stream'), new \ArrayIterator([
+            $eventWithoutMetadata1,
+        ]));
+
+        $this->eventStore->commit();
+
+        $this->assertCount(1, $this->result);
+        $this->assertArrayHasKey('aggregate_type', $this->result[0]);
+        $this->assertArrayHasKey('aggregate_id', $this->result[0]);
+        $this->assertEquals(User::class, $this->result[0]['aggregate_type']);
     }
 }
