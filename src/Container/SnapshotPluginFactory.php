@@ -69,7 +69,7 @@ final class SnapshotPluginFactory implements RequiresConfig, RequiresConfigId, P
         $config = $container->get('config');
         $config = $this->options($config, $this->configId);
 
-        return new SnapshotPlugin($container->get($config['command_bus']), $config['version_step']);
+        return new SnapshotPlugin($container->get($config['command_bus']), $config['version_step'], $config['event_names']);
     }
 
     public function dimensions(): array
@@ -81,6 +81,7 @@ final class SnapshotPluginFactory implements RequiresConfig, RequiresConfigId, P
     {
         return [
             'version_step' => 5,
+            'event_names' => [],
             'command_bus' => CommandBus::class,
         ];
     }

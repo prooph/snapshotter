@@ -65,5 +65,14 @@
             "type": "git",
             "url": "https://github.com/prolic/prophecy.git"
         }
-    ]
+    ],
+    "scripts": {
+        "check": [
+            "@cs",
+            "@test"
+        ],
+        "cs": "php-cs-fixer fix -v --diff --dry-run",
+        "cs-fix": "php-cs-fixer fix -v --diff",
+        "test": "phpunit"
+    }
 }
