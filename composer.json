@@ -25,10 +25,9 @@
     "prefer-stable": true,
     "require": {
         "php": "^7.1",
-        "prooph/common" : "4.0-dev",
-        "prooph/event-store" : "7.0-dev",
-        "prooph/service-bus" : "6.0-dev",
-        "prooph/event-store-bus-bridge" : "3.0-dev"
+        "prooph/event-store" : "7.0.x-dev",
+        "prooph/service-bus" : "6.0.x-dev",
+        "prooph/event-store-bus-bridge" : "3.0.x-dev"
     },
     "require-dev" : {
         "container-interop/container-interop": "^1.1",
