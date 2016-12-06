@@ -12,18 +12,17 @@ declare(strict_types=1);
 
 namespace ProophTest\Snapshotter;
 
+use Prooph\EventSourcing\Aggregate\AggregateRepository;
 use Prooph\EventSourcing\Aggregate\AggregateType;
 use Prooph\EventSourcing\EventStoreIntegration\AggregateTranslator;
 use Prooph\EventSourcing\Snapshot\InMemorySnapshotStore;
 use Prooph\EventStore\Projection\InMemoryEventStoreReadModelProjection;
 use Prooph\EventStore\Stream;
 use Prooph\EventStore\StreamName;
-use Prooph\Snapshotter\CategorySnapshotProjection;
 use Prooph\Snapshotter\SnapshotReadModel;
 use Prooph\Snapshotter\StreamSnapshotProjection;
-use ProophTest\EventStore\TestCase;
-use Prooph\EventSourcing\Aggregate\AggregateRepository;
 use ProophTest\EventSourcing\Mock\User;
+use ProophTest\EventStore\TestCase;
 
 class StreamSnapshotProjectionTest extends TestCase
 {
