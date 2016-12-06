@@ -6,19 +6,22 @@ matrix:
     - php: 7.1
       env:
         - DEPENDENCIES=""
+        - EXECUTE_CS_CHECK=true
         - TEST_COVERAGE=true
     - php: 7.1
       env:
         - DEPENDENCIES="--prefer-lowest --prefer-stable"
 
 before_script:
+  - mkdir -p "$HOME/.php-cs-fixer"
+  - phpenv config-rm xdebug.ini
   - composer self-update
   - composer update --prefer-source $DEPENDENCIES
 
 script:
-  - ./vendor/bin/phpunit --coverage-text --coverage-clover ./build/logs/clover.xml
-  - ./vendor/bin/php-cs-fixer fix -v --diff --dry-run
-  - ./vendor/bin/docheader check examples/ src/ tests/
+  - if [[ $TEST_COVERAGE == 'true' ]]; then php -dzend_extension=xdebug.so ./vendor/bin/phpunit --coverage-text --coverage-clover ./build/logs/clover.xml; else ./vendor/bin/phpunit; fi
+  - if [[ $EXECUTE_CS_CHECK == 'true' ]]; then ./vendor/bin/php-cs-fixer fix -v --diff --dry-run; fi
+  - if [[ $EXECUTE_CS_CHECK == 'true' ]]; then ./vendor/bin/docheader check src/ tests/; fi
 
 after_success:
   - if [[ $TEST_COVERAGE == 'true' ]]; then php vendor/bin/coveralls -v; fi
