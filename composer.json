@@ -25,9 +25,8 @@
     "prefer-stable": true,
     "require": {
         "php": "^7.1",
-        "prooph/event-store" : "7.0.x-dev",
-        "prooph/service-bus" : "6.0.x-dev",
-        "prooph/event-store-bus-bridge" : "3.0.x-dev"
+        "prooph/event-sourcing" : "5.0.x-dev",
+        "prooph/event-store" : "7.0.x-dev"
     },
     "require-dev" : {
         "container-interop/container-interop": "^1.1",
@@ -55,6 +54,7 @@
     "autoload-dev" : {
         "psr-4" : {
             "ProophTest\\Snapshotter\\": "tests/",
+            "ProophTest\\EventSourcing\\": "vendor/prooph/event-sourcing/tests/",
             "ProophTest\\EventStore\\": "vendor/prooph/event-store/tests/"
         }
     },
