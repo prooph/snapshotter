@@ -53,13 +53,15 @@ final class SnapshotReadModel implements ReadModel
         $this->snapshotStore = $snapshotStore;
     }
 
-    public function stack($operation): void
+    public function stack(string $operation, ...$events): void
     {
-        if (! $operation instanceof AggregateChanged) {
+        $event = $events[0];
+
+        if (! $event instanceof AggregateChanged) {
             throw new \RuntimeException(get_class($this) . ' can only handle events of type ' . AggregateChanged::class);
         }
 
-        $aggregateId = $operation->aggregateId();
+        $aggregateId = $event->aggregateId();
 
         if (! isset($this->aggregateCache[$aggregateId])) {
             $this->aggregateCache[$aggregateId] = $this->aggregateRepository->getAggregateRoot($aggregateId);
@@ -67,11 +69,11 @@ final class SnapshotReadModel implements ReadModel
 
         $this->aggregateTranslator->replayStreamEvents(
             $this->aggregateCache[$aggregateId],
-            new ArrayIterator([$operation])
+            new ArrayIterator([$event])
         );
     }
 
-    public function persistStack(): void
+    public function persist(): void
     {
         foreach ($this->aggregateCache as $aggregateRoot) {
             $this->snapshotStore->save(new Snapshot(

@@ -38,7 +38,7 @@ class StreamSnapshotProjection
         $this->readModelProjection
             ->fromStream($this->streamName)
             ->whenAny(function ($state, Message $event): void {
-                $this->readModel()->stack($event);
+                $this->readModel()->stack('replay', $event);
             })
             ->run($keepRunning);
     }

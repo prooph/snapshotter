@@ -38,7 +38,7 @@ class CategorySnapshotProjection
         $this->readModelProjection
             ->fromCategory($this->category)
             ->whenAny(function ($state, Message $event): void {
-                $this->readModel()->stack($event);
+                $this->readModel()->stack('replay', $event);
             })
             ->run($keepRunning);
     }

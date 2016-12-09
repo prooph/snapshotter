@@ -32,7 +32,7 @@ class SnapshotReadModelTest extends TestCase
     {
         $this->expectException(\RuntimeException::class);
 
-        $this->snapshotReadModel->stack('invalid event');
+        $this->snapshotReadModel->stack('replay', 'invalid event');
     }
 
     /**
