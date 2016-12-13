@@ -22,9 +22,9 @@ use Prooph\EventStore\StreamName;
 use Prooph\Snapshotter\SnapshotReadModel;
 use Prooph\Snapshotter\StreamSnapshotProjection;
 use ProophTest\EventSourcing\Mock\User;
-use ProophTest\EventStore\TestCase;
+use ProophTest\EventStore\EventStoreTestCase;
 
-class StreamSnapshotProjectionTest extends TestCase
+class StreamSnapshotProjectionTest extends EventStoreTestCase
 {
     /**
      * @test

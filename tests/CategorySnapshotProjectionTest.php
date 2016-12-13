@@ -21,9 +21,9 @@ use Prooph\EventStore\StreamName;
 use Prooph\Snapshotter\CategorySnapshotProjection;
 use Prooph\Snapshotter\SnapshotReadModel;
 use ProophTest\EventSourcing\Mock\User;
-use ProophTest\EventStore\TestCase;
+use ProophTest\EventStore\EventStoreTestCase;
 
-class CategorySnapshotProjectionTest extends TestCase
+class CategorySnapshotProjectionTest extends EventStoreTestCase
 {
     /**
      * @test
