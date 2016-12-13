@@ -64,7 +64,14 @@ final class SnapshotReadModel implements ReadModel
         $aggregateId = $event->aggregateId();
 
         if (! isset($this->aggregateCache[$aggregateId])) {
-            $this->aggregateCache[$aggregateId] = $this->aggregateRepository->getAggregateRoot($aggregateId);
+            $aggregateRoot = $this->aggregateRepository->getAggregateRoot($aggregateId);
+
+            if (! $aggregateRoot) {
+                // this happens when you have multiple aggregate types in a single stream
+                return;
+            }
+
+            $this->aggregateCache[$aggregateId] = $aggregateRoot;
         }
 
         $this->aggregateTranslator->replayStreamEvents(
