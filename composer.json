@@ -30,7 +30,6 @@
     },
     "require-dev" : {
         "container-interop/container-interop": "^1.1",
-        "sandrokeil/interop-config": "^1.0",
         "phpunit/phpunit": "^5.7",
         "phpspec/prophecy": "dev-patch-1 as 1.6.2",
         "prooph/php-cs-fixer-config": "^0.1.1",
@@ -40,11 +39,8 @@
         "malukenho/docheader": "^0.1.4"
     },
     "suggest" : {
-        "container-interop/container-interop": "For usage of provided factories",
-        "sandrokeil/interop-config": "For usage of provided factories"
-    },
-    "conflict": {
-        "sandrokeil/interop-config": "<1.0"
+        "prooph/pdo-snapshot-store": "^1.0 for PDO as Snapshot Store",
+        "prooph/mongodb-snapshot-store": "^1.0 for MongoDB as Snapshot Store"
     },
     "autoload" : {
         "psr-4" : {
