@@ -75,7 +75,7 @@ class StreamSnapshotProjectionTest extends EventStoreTestCase
 
         $streamSnapshotProjection(false);
 
-        $this->assertEquals($user1, $snapshotStore->get($aggregateType, $user1->id())->aggregateRoot());
-        $this->assertEquals($user2, $snapshotStore->get($aggregateType, $user2->id())->aggregateRoot());
+        $this->assertEquals($user1, $snapshotStore->get((string) $aggregateType, $user1->id())->aggregateRoot());
+        $this->assertEquals($user2, $snapshotStore->get((string) $aggregateType, $user2->id())->aggregateRoot());
     }
 }
