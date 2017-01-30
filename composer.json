@@ -26,7 +26,8 @@
     "require": {
         "php": "^7.1",
         "prooph/event-sourcing" : "5.0.x-dev",
-        "prooph/event-store" : "7.0.x-dev"
+        "prooph/event-store" : "7.0.x-dev",
+        "prooph/snapshot-store" : "1.0.x-dev"
     },
     "require-dev" : {
         "container-interop/container-interop": "^1.1",
