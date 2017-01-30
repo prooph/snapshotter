@@ -15,7 +15,7 @@ namespace ProophTest\Snapshotter;
 use PHPUnit\Framework\TestCase;
 use Prooph\EventSourcing\Aggregate\AggregateRepository;
 use Prooph\EventSourcing\Aggregate\AggregateTranslator;
-use Prooph\EventSourcing\Snapshot\SnapshotStore;
+use Prooph\SnapshotStore\SnapshotStore;
 use Prooph\Snapshotter\SnapshotReadModel;
 
 class SnapshotReadModelTest extends TestCase

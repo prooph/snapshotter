@@ -17,9 +17,9 @@ use Prooph\EventSourcing\Aggregate\AggregateRepository;
 use Prooph\EventSourcing\Aggregate\AggregateTranslator;
 use Prooph\EventSourcing\Aggregate\AggregateType;
 use Prooph\EventSourcing\AggregateChanged;
-use Prooph\EventSourcing\Snapshot\Snapshot;
-use Prooph\EventSourcing\Snapshot\SnapshotStore;
 use Prooph\EventStore\Projection\ReadModel;
+use Prooph\SnapshotStore\Snapshot;
+use Prooph\SnapshotStore\SnapshotStore;
 
 final class SnapshotReadModel implements ReadModel
 {
