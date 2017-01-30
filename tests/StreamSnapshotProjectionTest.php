@@ -67,6 +67,7 @@ class StreamSnapshotProjectionTest extends EventStoreTestCase
                     new AggregateTranslator(),
                     $snapshotStore
                 ),
+                5,
                 1000,
                 5
             ),
