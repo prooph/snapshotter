@@ -1,8 +1,8 @@
 <?php
 /**
  * This file is part of the prooph/snapshotter.
- * (c) 2015-2016 prooph software GmbH <contact@prooph.de>
- * (c) 2015-2016 Sascha-Oliver Prolic <saschaprolic@googlemail.com>
+ * (c) 2015-2017 prooph software GmbH <contact@prooph.de>
+ * (c) 2015-2017 Sascha-Oliver Prolic <saschaprolic@googlemail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -17,9 +17,9 @@ use Prooph\EventSourcing\Aggregate\AggregateRepository;
 use Prooph\EventSourcing\Aggregate\AggregateTranslator;
 use Prooph\EventSourcing\Aggregate\AggregateType;
 use Prooph\EventSourcing\AggregateChanged;
-use Prooph\EventSourcing\Snapshot\Snapshot;
-use Prooph\EventSourcing\Snapshot\SnapshotStore;
 use Prooph\EventStore\Projection\ReadModel;
+use Prooph\SnapshotStore\Snapshot;
+use Prooph\SnapshotStore\SnapshotStore;
 
 final class SnapshotReadModel implements ReadModel
 {
@@ -84,7 +84,7 @@ final class SnapshotReadModel implements ReadModel
     {
         foreach ($this->aggregateCache as $aggregateRoot) {
             $this->snapshotStore->save(new Snapshot(
-                AggregateType::fromAggregateRoot($aggregateRoot),
+                (string) AggregateType::fromAggregateRoot($aggregateRoot),
                 $this->aggregateTranslator->extractAggregateId($aggregateRoot),
                 $aggregateRoot,
                 $this->aggregateTranslator->extractAggregateVersion($aggregateRoot),

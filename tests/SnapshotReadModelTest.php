@@ -1,8 +1,8 @@
 <?php
 /**
  * This file is part of the prooph/snapshotter.
- * (c) 2015-2016 prooph software GmbH <contact@prooph.de>
- * (c) 2015-2016 Sascha-Oliver Prolic <saschaprolic@googlemail.com>
+ * (c) 2015-2017 prooph software GmbH <contact@prooph.de>
+ * (c) 2015-2017 Sascha-Oliver Prolic <saschaprolic@googlemail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,7 +15,7 @@ namespace ProophTest\Snapshotter;
 use PHPUnit\Framework\TestCase;
 use Prooph\EventSourcing\Aggregate\AggregateRepository;
 use Prooph\EventSourcing\Aggregate\AggregateTranslator;
-use Prooph\EventSourcing\Snapshot\SnapshotStore;
+use Prooph\SnapshotStore\SnapshotStore;
 use Prooph\Snapshotter\SnapshotReadModel;
 
 class SnapshotReadModelTest extends TestCase

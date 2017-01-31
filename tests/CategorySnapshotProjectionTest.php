@@ -1,8 +1,8 @@
 <?php
 /**
  * This file is part of the prooph/snapshotter.
- * (c) 2015-2016 prooph software GmbH <contact@prooph.de>
- * (c) 2015-2016 Sascha-Oliver Prolic <saschaprolic@googlemail.com>
+ * (c) 2015-2017 prooph software GmbH <contact@prooph.de>
+ * (c) 2015-2017 Sascha-Oliver Prolic <saschaprolic@googlemail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,9 +15,9 @@ namespace ProophTest\Snapshotter;
 use Prooph\EventSourcing\Aggregate\AggregateRepository;
 use Prooph\EventSourcing\Aggregate\AggregateType;
 use Prooph\EventSourcing\EventStoreIntegration\AggregateTranslator;
-use Prooph\EventSourcing\Snapshot\InMemorySnapshotStore;
 use Prooph\EventStore\Projection\InMemoryEventStoreReadModelProjection;
 use Prooph\EventStore\StreamName;
+use Prooph\SnapshotStore\InMemorySnapshotStore;
 use Prooph\Snapshotter\CategorySnapshotProjection;
 use Prooph\Snapshotter\SnapshotReadModel;
 use ProophTest\EventSourcing\Mock\User;
@@ -59,6 +59,7 @@ class CategorySnapshotProjectionTest extends EventStoreTestCase
                     new AggregateTranslator(),
                     $snapshotStore
                 ),
+                5,
                 1000,
                 5
             ),
@@ -67,7 +68,7 @@ class CategorySnapshotProjectionTest extends EventStoreTestCase
 
         $categorySnapshotProjection(false);
 
-        $this->assertEquals($user1, $snapshotStore->get($aggregateType, $user1->id())->aggregateRoot());
-        $this->assertEquals($user2, $snapshotStore->get($aggregateType, $user2->id())->aggregateRoot());
+        $this->assertEquals($user1, $snapshotStore->get((string) $aggregateType, $user1->id())->aggregateRoot());
+        $this->assertEquals($user2, $snapshotStore->get((string) $aggregateType, $user2->id())->aggregateRoot());
     }
 }
