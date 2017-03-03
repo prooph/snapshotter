@@ -26,30 +26,37 @@ final class SnapshotReadModel implements ReadModel
     /**
      * @var AggregateRepository
      */
-    protected $aggregateRepository;
+    private $aggregateRepository;
 
     /**
      * @var AggregateTranslator
      */
-    protected $aggregateTranslator;
+    private $aggregateTranslator;
 
     /**
      * @var array
      */
-    protected $aggregateCache = [];
+    private $aggregateCache = [];
 
     /**
      * @var SnapshotStore
      */
-    protected $snapshotStore;
+    private $snapshotStore;
+
+    /**
+     * @var AggregateType[]
+     */
+    private $aggregateTypes;
 
     public function __construct(
         AggregateRepository $aggregateRepository,
         AggregateTranslator $aggregateTranslator,
-        SnapshotStore $snapshotStore
+        SnapshotStore $snapshotStore,
+        array $aggregateTypes
     ) {
         $this->aggregateRepository = $aggregateRepository;
         $this->aggregateTranslator = $aggregateTranslator;
+        $this->aggregateTypes = $aggregateTypes;
         $this->snapshotStore = $snapshotStore;
     }
 
@@ -107,7 +114,9 @@ final class SnapshotReadModel implements ReadModel
 
     public function reset(): void
     {
-        throw new \BadMethodCallException('Resetting a snapshot read model is not supported');
+        foreach ($this->aggregateTypes as $aggregateType) {
+            $this->snapshotStore->removeAll((string) $aggregateType);
+        }
     }
 
     public function delete(): void
