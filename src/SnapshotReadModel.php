@@ -18,6 +18,7 @@ use Prooph\EventSourcing\Aggregate\AggregateTranslator;
 use Prooph\EventSourcing\Aggregate\AggregateType;
 use Prooph\EventSourcing\AggregateChanged;
 use Prooph\EventStore\Projection\ReadModel;
+use Prooph\EventStore\Util\Assertion;
 use Prooph\SnapshotStore\Snapshot;
 use Prooph\SnapshotStore\SnapshotStore;
 
@@ -26,30 +27,40 @@ final class SnapshotReadModel implements ReadModel
     /**
      * @var AggregateRepository
      */
-    protected $aggregateRepository;
+    private $aggregateRepository;
 
     /**
      * @var AggregateTranslator
      */
-    protected $aggregateTranslator;
+    private $aggregateTranslator;
 
     /**
      * @var array
      */
-    protected $aggregateCache = [];
+    private $aggregateCache = [];
 
     /**
      * @var SnapshotStore
      */
-    protected $snapshotStore;
+    private $snapshotStore;
+
+    /**
+     * @var AggregateType[]
+     */
+    private $aggregateTypes;
 
     public function __construct(
         AggregateRepository $aggregateRepository,
         AggregateTranslator $aggregateTranslator,
-        SnapshotStore $snapshotStore
+        SnapshotStore $snapshotStore,
+        array $aggregateTypes
     ) {
+        Assertion::allString($aggregateTypes);
+        Assertion::allNotEmpty($aggregateTypes);
+
         $this->aggregateRepository = $aggregateRepository;
         $this->aggregateTranslator = $aggregateTranslator;
+        $this->aggregateTypes = $aggregateTypes;
         $this->snapshotStore = $snapshotStore;
     }
 
@@ -97,7 +108,7 @@ final class SnapshotReadModel implements ReadModel
 
     public function init(): void
     {
-        throw new \BadMethodCallException('Initializing a snapshot read model is not supported');
+        // do nothing
     }
 
     public function isInitialized(): bool
@@ -107,11 +118,15 @@ final class SnapshotReadModel implements ReadModel
 
     public function reset(): void
     {
-        throw new \BadMethodCallException('Resetting a snapshot read model is not supported');
+        foreach ($this->aggregateTypes as $aggregateType) {
+            $this->snapshotStore->removeAll($aggregateType);
+        }
     }
 
     public function delete(): void
     {
-        throw new \BadMethodCallException('Deleting a snapshot read model is not supported');
+        foreach ($this->aggregateTypes as $aggregateType) {
+            $this->snapshotStore->removeAll($aggregateType);
+        }
     }
 }
