@@ -12,9 +12,11 @@ declare(strict_types=1);
 
 namespace ProophTest\Snapshotter;
 
+use PHPUnit\Framework\TestCase;
 use Prooph\EventSourcing\Aggregate\AggregateRepository;
 use Prooph\EventSourcing\Aggregate\AggregateType;
 use Prooph\EventSourcing\EventStoreIntegration\AggregateTranslator;
+use Prooph\EventStore\InMemoryEventStore;
 use Prooph\EventStore\Projection\InMemoryEventStoreReadModelProjection;
 use Prooph\EventStore\Stream;
 use Prooph\EventStore\StreamName;
@@ -22,9 +24,8 @@ use Prooph\SnapshotStore\InMemorySnapshotStore;
 use Prooph\Snapshotter\SnapshotReadModel;
 use Prooph\Snapshotter\StreamSnapshotProjection;
 use ProophTest\EventSourcing\Mock\User;
-use ProophTest\EventStore\EventStoreTestCase;
 
-class StreamSnapshotProjectionTest extends EventStoreTestCase
+class StreamSnapshotProjectionTest extends TestCase
 {
     /**
      * @test
@@ -37,7 +38,9 @@ class StreamSnapshotProjectionTest extends EventStoreTestCase
         $user2 = User::nameNew('Sasha');
         $user2->changeName('Sascha');
 
-        $this->eventStore->create(
+        $eventStore = new InMemoryEventStore();
+
+        $eventStore->create(
             new Stream(
                 new StreamName('user'),
                 new \ArrayIterator()
@@ -47,7 +50,7 @@ class StreamSnapshotProjectionTest extends EventStoreTestCase
         $snapshotStore = new InMemorySnapshotStore();
         $aggregateType = AggregateType::fromAggregateRoot($user1);
         $aggregateRepository = new AggregateRepository(
-            $this->eventStore,
+            $eventStore,
             $aggregateType,
             new AggregateTranslator(),
             $snapshotStore,
@@ -60,12 +63,13 @@ class StreamSnapshotProjectionTest extends EventStoreTestCase
 
         $streamSnapshotProjection = new StreamSnapshotProjection(
             new InMemoryEventStoreReadModelProjection(
-                $this->eventStore,
+                $eventStore,
                 'user-snapshots',
                 new SnapshotReadModel(
                     $aggregateRepository,
                     new AggregateTranslator(),
-                    $snapshotStore
+                    $snapshotStore,
+                    [$aggregateType->toString()]
                 ),
                 5,
                 1000,

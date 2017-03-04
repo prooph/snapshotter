@@ -18,6 +18,7 @@ use Prooph\EventSourcing\Aggregate\AggregateTranslator;
 use Prooph\EventSourcing\Aggregate\AggregateType;
 use Prooph\EventSourcing\AggregateChanged;
 use Prooph\EventStore\Projection\ReadModel;
+use Prooph\EventStore\Util\Assertion;
 use Prooph\SnapshotStore\Snapshot;
 use Prooph\SnapshotStore\SnapshotStore;
 
@@ -54,6 +55,9 @@ final class SnapshotReadModel implements ReadModel
         SnapshotStore $snapshotStore,
         array $aggregateTypes
     ) {
+        Assertion::allString($aggregateTypes);
+        Assertion::allNotEmpty($aggregateTypes);
+
         $this->aggregateRepository = $aggregateRepository;
         $this->aggregateTranslator = $aggregateTranslator;
         $this->aggregateTypes = $aggregateTypes;
@@ -104,7 +108,7 @@ final class SnapshotReadModel implements ReadModel
 
     public function init(): void
     {
-        throw new \BadMethodCallException('Initializing a snapshot read model is not supported');
+        // do nothing
     }
 
     public function isInitialized(): bool
@@ -115,12 +119,14 @@ final class SnapshotReadModel implements ReadModel
     public function reset(): void
     {
         foreach ($this->aggregateTypes as $aggregateType) {
-            $this->snapshotStore->removeAll((string) $aggregateType);
+            $this->snapshotStore->removeAll($aggregateType);
         }
     }
 
     public function delete(): void
     {
-        throw new \BadMethodCallException('Deleting a snapshot read model is not supported');
+        foreach ($this->aggregateTypes as $aggregateType) {
+            $this->snapshotStore->removeAll($aggregateType);
+        }
     }
 }

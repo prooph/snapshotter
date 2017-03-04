@@ -38,31 +38,37 @@ class SnapshotReadModelTest extends TestCase
     /**
      * @test
      */
-    public function it_throws_exception_when_init_called(): void
+    public function it_handles_reset(): void
     {
-        $this->expectException(\BadMethodCallException::class);
+        $snapshotStore = $this->prophesize(SnapshotStore::class);
+        $snapshotStore->removeAll('ProophTest\EventSourcing\Mock\User')->shouldBeCalled();
 
-        $this->snapshotReadModel->init();
+        $snapshotReadModel = new SnapshotReadModel(
+            $this->prophesize(AggregateRepository::class)->reveal(),
+            $this->prophesize(AggregateTranslator::class)->reveal(),
+            $snapshotStore->reveal(),
+            ['ProophTest\EventSourcing\Mock\User']
+        );
+
+        $snapshotReadModel->reset();
     }
 
     /**
      * @test
      */
-    public function it_throws_exception_when_reset_called(): void
+    public function it_handles_delete(): void
     {
-        $this->expectException(\BadMethodCallException::class);
+        $snapshotStore = $this->prophesize(SnapshotStore::class);
+        $snapshotStore->removeAll('ProophTest\EventSourcing\Mock\User')->shouldBeCalled();
 
-        $this->snapshotReadModel->reset();
-    }
+        $snapshotReadModel = new SnapshotReadModel(
+            $this->prophesize(AggregateRepository::class)->reveal(),
+            $this->prophesize(AggregateTranslator::class)->reveal(),
+            $snapshotStore->reveal(),
+            ['ProophTest\EventSourcing\Mock\User']
+        );
 
-    /**
-     * @test
-     */
-    public function it_throws_exception_when_delete_called(): void
-    {
-        $this->expectException(\BadMethodCallException::class);
-
-        $this->snapshotReadModel->delete();
+        $snapshotReadModel->delete();
     }
 
     protected function setUp(): void
@@ -70,7 +76,8 @@ class SnapshotReadModelTest extends TestCase
         $this->snapshotReadModel = new SnapshotReadModel(
             $this->prophesize(AggregateRepository::class)->reveal(),
             $this->prophesize(AggregateTranslator::class)->reveal(),
-            $this->prophesize(SnapshotStore::class)->reveal()
+            $this->prophesize(SnapshotStore::class)->reveal(),
+            ['ProophTest\EventSourcing\Mock\User']
         );
     }
 }
