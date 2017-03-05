@@ -45,7 +45,7 @@ final class SnapshotReadModel implements ReadModel
     private $snapshotStore;
 
     /**
-     * @var AggregateType[]
+     * @var string[]
      */
     private $aggregateTypes;
 
