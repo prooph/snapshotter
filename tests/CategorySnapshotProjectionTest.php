@@ -17,7 +17,7 @@ use Prooph\EventSourcing\Aggregate\AggregateRepository;
 use Prooph\EventSourcing\Aggregate\AggregateType;
 use Prooph\EventSourcing\EventStoreIntegration\AggregateTranslator;
 use Prooph\EventStore\InMemoryEventStore;
-use Prooph\EventStore\Projection\InMemoryEventStoreReadModelProjection;
+use Prooph\EventStore\Projection\InMemoryEventStoreReadModelProjector;
 use Prooph\EventStore\StreamName;
 use Prooph\SnapshotStore\InMemorySnapshotStore;
 use Prooph\Snapshotter\CategorySnapshotProjection;
@@ -54,7 +54,7 @@ class CategorySnapshotProjectionTest extends TestCase
         $aggregateRepository->saveAggregateRoot($user2);
 
         $categorySnapshotProjection = new CategorySnapshotProjection(
-            new InMemoryEventStoreReadModelProjection(
+            new InMemoryEventStoreReadModelProjector(
                 $eventStore,
                 'user-snapshots',
                 new SnapshotReadModel(
