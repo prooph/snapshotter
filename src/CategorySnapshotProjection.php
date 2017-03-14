@@ -13,29 +13,29 @@ declare(strict_types=1);
 namespace Prooph\Snapshotter;
 
 use Prooph\Common\Messaging\Message;
-use Prooph\EventStore\Projection\ReadModelProjection;
+use Prooph\EventStore\Projection\ReadModelProjector;
 
 class CategorySnapshotProjection
 {
     /**
-     * @var ReadModelProjection
+     * @var ReadModelProjector
      */
-    private $readModelProjection;
+    private $readModelProjector;
 
     /**
      * @var string
      */
     private $category;
 
-    public function __construct(ReadModelProjection $readModelProjection, string $category)
+    public function __construct(ReadModelProjector $readModelProjector, string $category)
     {
-        $this->readModelProjection = $readModelProjection;
+        $this->readModelProjector = $readModelProjector;
         $this->category = $category;
     }
 
     public function __invoke(bool $keepRunning = true)
     {
-        $this->readModelProjection
+        $this->readModelProjector
             ->fromCategory($this->category)
             ->whenAny(function ($state, Message $event): void {
                 $this->readModel()->stack('replay', $event);

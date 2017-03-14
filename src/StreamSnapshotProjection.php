@@ -13,29 +13,29 @@ declare(strict_types=1);
 namespace Prooph\Snapshotter;
 
 use Prooph\Common\Messaging\Message;
-use Prooph\EventStore\Projection\ReadModelProjection;
+use Prooph\EventStore\Projection\ReadModelProjector;
 
 class StreamSnapshotProjection
 {
     /**
-     * @var ReadModelProjection
+     * @var ReadModelProjector
      */
-    private $readModelProjection;
+    private $readModelProjector;
 
     /**
      * @var string
      */
     private $streamName;
 
-    public function __construct(ReadModelProjection $readModelProjection, string $streamName)
+    public function __construct(ReadModelProjector $readModelProjector, string $streamName)
     {
-        $this->readModelProjection = $readModelProjection;
+        $this->readModelProjector = $readModelProjector;
         $this->streamName = $streamName;
     }
 
     public function __invoke(bool $keepRunning = true)
     {
-        $this->readModelProjection
+        $this->readModelProjector
             ->fromStream($this->streamName)
             ->whenAny(function ($state, Message $event): void {
                 $this->readModel()->stack('replay', $event);
