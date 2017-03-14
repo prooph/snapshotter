@@ -17,7 +17,7 @@ use Prooph\EventSourcing\Aggregate\AggregateRepository;
 use Prooph\EventSourcing\Aggregate\AggregateType;
 use Prooph\EventSourcing\EventStoreIntegration\AggregateTranslator;
 use Prooph\EventStore\InMemoryEventStore;
-use Prooph\EventStore\Projection\InMemoryEventStoreReadModelProjection;
+use Prooph\EventStore\Projection\InMemoryEventStoreReadModelProjector;
 use Prooph\EventStore\Stream;
 use Prooph\EventStore\StreamName;
 use Prooph\SnapshotStore\InMemorySnapshotStore;
@@ -62,7 +62,7 @@ class StreamSnapshotProjectionTest extends TestCase
         $aggregateRepository->saveAggregateRoot($user2);
 
         $streamSnapshotProjection = new StreamSnapshotProjection(
-            new InMemoryEventStoreReadModelProjection(
+            new InMemoryEventStoreReadModelProjector(
                 $eventStore,
                 'user-snapshots',
                 new SnapshotReadModel(
