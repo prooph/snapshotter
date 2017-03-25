@@ -1,0 +1,9 @@
+{
+  "title": "Prooph EventSourcing",
+  "content": [
+    {"intro": "../README.md"},
+    {"snapshots": "snapshots.md"}
+  ],
+  "target": "./html",
+  "template": "../vendor/prooph/bookdown-template/templates/main.php"
+}
