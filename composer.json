@@ -21,30 +21,25 @@
             "email": "saschaprolic@googlemail.com"
         }
     ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
-        "php": "~5.5|~7.0",
-        "beberlei/assert": "~2.3",
-        "prooph/common" : "~3.3",
-        "prooph/event-store" : "^6.0",
-        "prooph/event-sourcing" : "^4.0",
-        "prooph/service-bus" : "^5.0",
-        "prooph/event-store-bus-bridge" : "^2.0"
+        "php": "^7.1",
+        "prooph/event-sourcing" : "^5.0",
+        "prooph/event-store" : "^7.0",
+        "prooph/snapshot-store" : "^1.0"
     },
     "require-dev" : {
-        "container-interop/container-interop": "^1.1",
-        "sandrokeil/interop-config": "^1.0",
-        "fabpot/php-cs-fixer": "1.7.*",
-        "phpunit/phpunit": "^4.8",
-        "satooshi/php-coveralls": "dev-master",
-        "zendframework/zend-servicemanager": "~2.6",
-        "tobiju/bookdown-bootswatch-templates": "^0.2.0"
+        "phpunit/phpunit": "^6.0",
+        "phpspec/prophecy": "^1.7",
+        "prooph/php-cs-fixer-config": "^0.1.1",
+        "prooph/bookdown-template": "^0.2.3",
+        "satooshi/php-coveralls": "^1.0",
+        "malukenho/docheader": "^0.1.4"
     },
     "suggest" : {
-        "container-interop/container-interop": "For usage of provided factories",
-        "sandrokeil/interop-config": "For usage of provided factories"
-    },
-    "conflict": {
-        "sandrokeil/interop-config": "<1.0"
+        "prooph/pdo-snapshot-store": "^1.0 for PDO as Snapshot Store",
+        "prooph/mongodb-snapshot-store": "^1.0 for MongoDB as Snapshot Store"
     },
     "autoload" : {
         "psr-4" : {
@@ -54,7 +49,13 @@
     "autoload-dev" : {
         "psr-4" : {
             "ProophTest\\Snapshotter\\": "tests/",
+            "ProophTest\\EventSourcing\\": "vendor/prooph/event-sourcing/tests/",
             "ProophTest\\EventStore\\": "vendor/prooph/event-store/tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "2.1-dev"
         }
     },
     "scripts": {

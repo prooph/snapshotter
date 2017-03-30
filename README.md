@@ -8,17 +8,6 @@ Take aggregate snapshots with ease
 [![Coverage Status](https://coveralls.io/repos/prooph/snapshotter/badge.svg?branch=master&service=github)](https://coveralls.io/github/prooph/snapshotter?branch=master)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/prooph/improoph)
 
-## Documentation
-
-Documentation is [in the doc tree](docs/), and can be compiled using [bookdown](http://bookdown.io).
-
-```console
-$ php ./vendor/bin/bookdown docs/bookdown.json
-$ php -S 0.0.0.0:8080 -t docs/html/
-```
-
-Then browse to [http://localhost:8080/](http://localhost:8080/)
-
 ## Support
 
 - Ask questions on [prooph-users](https://groups.google.com/forum/?hl=de#!forum/prooph) google group.
