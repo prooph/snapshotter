@@ -10,7 +10,7 @@ Take aggregate snapshots with ease
 
 ## Support
 
-- Ask questions on [prooph-users](https://groups.google.com/forum/?hl=de#!forum/prooph) google group.
+- Ask questions on Stack Overflow tagged with [#prooph](https://stackoverflow.com/questions/tagged/prooph).
 - File issues at [https://github.com/prooph/snapshotter/issues](https://github.com/prooph/snapshotter/issues).
 - Say hello in the [prooph gitter](https://gitter.im/prooph/improoph) chat.
 
