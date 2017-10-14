@@ -1,5 +1,15 @@
 # Snapshotter
 
+Snapshot tool for the prooph event-store. Take aggregate snapshots with ease.
+
+## Installation
+
+```
+composer require prooph/snapshotter
+```
+
+## Snapshots via Projection
+
 There are two projections shipped with this package:
 
 1) CategorySnapshotProjection
