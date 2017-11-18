@@ -103,6 +103,7 @@ final class SnapshotReadModel implements ReadModel
             ));
         }
 
+        $this->aggregateRepository->clearIdentityMap();
         $this->aggregateCache = [];
     }
 
