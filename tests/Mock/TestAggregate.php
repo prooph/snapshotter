@@ -33,7 +33,7 @@ final class TestAggregate extends AggregateRoot
 
     protected function apply(AggregateChanged $event): void
     {
-        if (!isset($this->eventsCount[$event->uuid()->toString()])) {
+        if (! isset($this->eventsCount[$event->uuid()->toString()])) {
             $this->eventsCount[$event->uuid()->toString()] = 0;
         }
 

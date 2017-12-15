@@ -32,7 +32,6 @@ class CategorySnapshotProjection
         $this->readModelProjector = $readModelProjector;
         $this->category = $category;
 
-
         $this->readModelProjector
             ->fromCategory($this->category)
             ->whenAny(function ($state, Message $event): void {
