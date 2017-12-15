@@ -31,15 +31,17 @@ class CategorySnapshotProjection
     {
         $this->readModelProjector = $readModelProjector;
         $this->category = $category;
-    }
 
-    public function __invoke(bool $keepRunning = true)
-    {
+
         $this->readModelProjector
             ->fromCategory($this->category)
             ->whenAny(function ($state, Message $event): void {
                 $this->readModel()->stack('replay', $event);
-            })
-            ->run($keepRunning);
+            });
+    }
+
+    public function __invoke(bool $keepRunning = true)
+    {
+        $this->readModelProjector->run($keepRunning);
     }
 }

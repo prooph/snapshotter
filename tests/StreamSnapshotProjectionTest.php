@@ -24,6 +24,8 @@ use Prooph\SnapshotStore\InMemorySnapshotStore;
 use Prooph\Snapshotter\SnapshotReadModel;
 use Prooph\Snapshotter\StreamSnapshotProjection;
 use ProophTest\EventSourcing\Mock\User;
+use ProophTest\EventSourcing\Mock\UserNameChanged;
+use ProophTest\Snapshotter\Mock\TestAggregate;
 
 class StreamSnapshotProjectionTest extends TestCase
 {
@@ -82,5 +84,64 @@ class StreamSnapshotProjectionTest extends TestCase
 
         $this->assertEquals($user1, $snapshotStore->get((string) $aggregateType, $user1->id())->aggregateRoot());
         $this->assertEquals($user2, $snapshotStore->get((string) $aggregateType, $user2->id())->aggregateRoot());
+    }
+
+    /**
+     * @test
+     */
+    public function it_takes_snapshots_without_duplicates(): void
+    {
+        $events = [];
+        for ($i = 0; $i < 10; $i++) {
+            $events[] = UserNameChanged::occur('my_only_aggregate', ['username' => uniqid('name_')])
+                ->withAddedMetadata('_aggregate_type', TestAggregate::class)
+                ->withAddedMetadata('_aggregate_id', 'my_only_aggregate')
+                ->withAddedMetadata('_aggregate_version', $i + 1);
+        }
+
+        $eventStore = new InMemoryEventStore();
+
+        $eventStore->create(
+            new Stream(
+                new StreamName('user'),
+                new \ArrayIterator($events)
+            )
+        );
+
+        $snapshotStore = new InMemorySnapshotStore();
+        $aggregateType = AggregateType::fromAggregateRootClass(TestAggregate::class);
+        $aggregateRepository = new AggregateRepository(
+            $eventStore,
+            $aggregateType,
+            new AggregateTranslator(),
+            $snapshotStore,
+            new StreamName('user'),
+            false
+        );
+
+        $streamSnapshotProjection = new StreamSnapshotProjection(
+            new InMemoryEventStoreReadModelProjector(
+                $eventStore,
+                'user-snapshots',
+                new SnapshotReadModel(
+                    $aggregateRepository,
+                    new AggregateTranslator(),
+                    $snapshotStore,
+                    [$aggregateType->toString()]
+                ),
+                5,
+                10,
+                5
+            ),
+            'user'
+        );
+
+        $streamSnapshotProjection(false);
+
+        $user = $aggregateRepository->getAggregateRoot('my_only_aggregate');
+
+        foreach ($user->eventsCount() as $eventId => $count) {
+            $this->assertSame(1, $count);
+        }
     }
 }

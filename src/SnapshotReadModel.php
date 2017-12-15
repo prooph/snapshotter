@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Prooph\Snapshotter;
 
-use ArrayIterator;
 use Prooph\EventSourcing\Aggregate\AggregateRepository;
 use Prooph\EventSourcing\Aggregate\AggregateTranslator;
 use Prooph\EventSourcing\Aggregate\AggregateType;
@@ -72,31 +71,16 @@ final class SnapshotReadModel implements ReadModel
             throw new \RuntimeException(get_class($this) . ' can only handle events of type ' . AggregateChanged::class);
         }
 
-        $aggregateId = $event->aggregateId();
-
-        if (! isset($this->aggregateCache[$aggregateId])) {
-            $aggregateRoot = $this->aggregateRepository->getAggregateRoot($aggregateId);
-
-            if (! $aggregateRoot) {
-                // this happens when you have multiple aggregate types in a single stream
-                return;
-            }
-
-            $this->aggregateCache[$aggregateId] = $aggregateRoot;
-        }
-
-        $this->aggregateTranslator->replayStreamEvents(
-            $this->aggregateCache[$aggregateId],
-            new ArrayIterator([$event])
-        );
+        $this->aggregateCache[] = $event->aggregateId();
     }
 
     public function persist(): void
     {
-        foreach ($this->aggregateCache as $aggregateRoot) {
+        foreach (array_unique($this->aggregateCache) as $aggregateId) {
+            $aggregateRoot = $this->aggregateRepository->getAggregateRoot($aggregateId);
             $this->snapshotStore->save(new Snapshot(
                 (string) AggregateType::fromAggregateRoot($aggregateRoot),
-                $this->aggregateTranslator->extractAggregateId($aggregateRoot),
+                $aggregateId,
                 $aggregateRoot,
                 $this->aggregateTranslator->extractAggregateVersion($aggregateRoot),
                 new \DateTimeImmutable('now', new \DateTimeZone('UTC'))

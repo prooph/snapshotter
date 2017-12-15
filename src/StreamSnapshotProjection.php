@@ -31,15 +31,16 @@ class StreamSnapshotProjection
     {
         $this->readModelProjector = $readModelProjector;
         $this->streamName = $streamName;
-    }
 
-    public function __invoke(bool $keepRunning = true)
-    {
         $this->readModelProjector
             ->fromStream($this->streamName)
             ->whenAny(function ($state, Message $event): void {
                 $this->readModel()->stack('replay', $event);
-            })
-            ->run($keepRunning);
+            });
+    }
+
+    public function __invoke(bool $keepRunning = true)
+    {
+        $this->readModelProjector->run($keepRunning);
     }
 }
