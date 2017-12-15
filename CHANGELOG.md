@@ -1,7 +1,22 @@
 # Change Log
 
-## [v2.0.1](https://github.com/prooph/snapshotter/tree/v2.0.1)
+## [v2.1.0](https://github.com/prooph/snapshotter/tree/v2.1.0)
 
+[Full Changelog](https://github.com/prooph/snapshotter/compare/v2.0.1...v2.1.0)
+
+**Implemented enhancements:**
+
+- test php 7.2 on travis [\#32](https://github.com/prooph/snapshotter/pull/32) ([prolic](https://github.com/prolic))
+
+**Fixed bugs:**
+
+- fix snapshot read model [\#31](https://github.com/prooph/snapshotter/pull/31) ([prolic](https://github.com/prolic))
+
+**Closed issues:**
+
+- Events are applied multiple times when fetching aggregate through snapshot store [\#30](https://github.com/prooph/snapshotter/issues/30)
+
+## [v2.0.1](https://github.com/prooph/snapshotter/tree/v2.0.1) (2017-11-18)
 [Full Changelog](https://github.com/prooph/snapshotter/compare/v2.0.0...v2.0.1)
 
 **Closed issues:**
