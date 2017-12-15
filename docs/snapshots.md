@@ -50,10 +50,10 @@ $projection = $projectionManager->createReadModelProjection(
 );
 
 $categorySnapshotProjection = new \Prooph\Snapshotter\CategorySnapshotProjection($projection, 'user');
-$categorySnapshotProjection->run();
+$categorySnapshotProjection();
 
 // or
 
 $streamSnapshotProjection = new \Prooph\Snapshotter\StreamSnapshotProjection($projection, 'user');
-$streamSnapshotProjection->run();
+$streamSnapshotProjection();
 ```

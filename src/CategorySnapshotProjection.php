@@ -22,18 +22,10 @@ class CategorySnapshotProjection
      */
     private $readModelProjector;
 
-    /**
-     * @var string
-     */
-    private $category;
-
     public function __construct(ReadModelProjector $readModelProjector, string $category)
     {
-        $this->readModelProjector = $readModelProjector;
-        $this->category = $category;
-
-        $this->readModelProjector
-            ->fromCategory($this->category)
+        $this->readModelProjector = $readModelProjector
+            ->fromCategory($category)
             ->whenAny(function ($state, Message $event): void {
                 $this->readModel()->stack('replay', $event);
             });
