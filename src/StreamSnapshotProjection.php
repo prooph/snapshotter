@@ -22,24 +22,17 @@ class StreamSnapshotProjection
      */
     private $readModelProjector;
 
-    /**
-     * @var string
-     */
-    private $streamName;
-
     public function __construct(ReadModelProjector $readModelProjector, string $streamName)
     {
-        $this->readModelProjector = $readModelProjector;
-        $this->streamName = $streamName;
+        $this->readModelProjector = $readModelProjector
+            ->fromStream($streamName)
+            ->whenAny(function ($state, Message $event): void {
+                $this->readModel()->stack('replay', $event);
+            });
     }
 
     public function __invoke(bool $keepRunning = true)
     {
-        $this->readModelProjector
-            ->fromStream($this->streamName)
-            ->whenAny(function ($state, Message $event): void {
-                $this->readModel()->stack('replay', $event);
-            })
-            ->run($keepRunning);
+        $this->readModelProjector->run($keepRunning);
     }
 }
