@@ -35,7 +35,7 @@
         "sandrokeil/interop-config": "^1.0",
         "fabpot/php-cs-fixer": "1.7.*",
         "phpunit/phpunit": "^4.8",
-        "satooshi/php-coveralls": "dev-master",
+        "satooshi/php-coveralls": "^2.0",
         "zendframework/zend-servicemanager": "~2.6",
         "tobiju/bookdown-bootswatch-templates": "^0.2.0"
     },
