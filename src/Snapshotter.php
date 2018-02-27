@@ -51,10 +51,10 @@ final class Snapshotter
     }
 
     /**
-     * @param TakeSnapshot $command
+     * @param SnapshotCommand $command
      * @throws Exception\RuntimeException
      */
-    public function __invoke(TakeSnapshot $command)
+    public function __invoke(SnapshotCommand $command)
     {
         $aggregateType = $command->aggregateType();
 

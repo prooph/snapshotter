@@ -19,7 +19,7 @@ use Prooph\Common\Messaging\PayloadTrait;
  * Class TakeSnapshot
  * @package Prooph\Snapshotter
  */
-final class TakeSnapshot extends Command
+final class TakeSnapshot extends Command implements SnapshotCommand
 {
     use PayloadTrait;
 
