@@ -8,6 +8,11 @@ Take aggregate snapshots with ease
 [![Coverage Status](https://coveralls.io/repos/prooph/snapshotter/badge.svg?branch=master&service=github)](https://coveralls.io/github/prooph/snapshotter?branch=master)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/prooph/improoph)
 
+## Important note
+
+- v3 of this library is for usage with prooph/event-store-client
+- when using prooph/event-store v7 use v2 of this library.
+
 ## Support
 
 - Ask questions on Stack Overflow tagged with [#prooph](https://stackoverflow.com/questions/tagged/prooph).
