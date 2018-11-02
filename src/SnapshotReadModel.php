@@ -1,8 +1,9 @@
 <?php
+
 /**
- * This file is part of the prooph/snapshotter.
- * (c) 2015-2017 prooph software GmbH <contact@prooph.de>
- * (c) 2015-2017 Sascha-Oliver Prolic <saschaprolic@googlemail.com>
+ * This file is part of prooph/snapshotter.
+ * (c) 2015-2018 prooph software GmbH <contact@prooph.de>
+ * (c) 2015-2018 Sascha-Oliver Prolic <saschaprolic@googlemail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -68,7 +69,7 @@ final class SnapshotReadModel implements ReadModel
         $event = $events[0];
 
         if (! $event instanceof AggregateChanged) {
-            throw new \RuntimeException(get_class($this) . ' can only handle events of type ' . AggregateChanged::class);
+            throw new \RuntimeException(\get_class($this) . ' can only handle events of type ' . AggregateChanged::class);
         }
 
         $this->aggregateCache[] = $event->aggregateId();
@@ -76,7 +77,7 @@ final class SnapshotReadModel implements ReadModel
 
     public function persist(): void
     {
-        foreach (array_unique($this->aggregateCache) as $aggregateId) {
+        foreach (\array_unique($this->aggregateCache) as $aggregateId) {
             $aggregateRoot = $this->aggregateRepository->getAggregateRoot($aggregateId);
             $this->snapshotStore->save(new Snapshot(
                 (string) AggregateType::fromAggregateRoot($aggregateRoot),
