@@ -10,3 +10,4 @@ nbproject
 composer.lock
 vendor
 docs/html
+.phpunit.result.cache

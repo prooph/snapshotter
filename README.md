@@ -4,7 +4,7 @@ Snapshot tool for the prooph event-store
 
 Take aggregate snapshots with ease
 
-[![Build Status](https://travis-ci.org/prooph/snapshotter.svg?branch=master)](https://travis-ci.org/prooph/snapshotter)
+[![Build Status](https://travis-ci.com/prooph/snapshotter.svg?branch=master)](https://travis-ci.com/prooph/snapshotter)
 [![Coverage Status](https://coveralls.io/repos/prooph/snapshotter/badge.svg?branch=master&service=github)](https://coveralls.io/github/prooph/snapshotter?branch=master)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/prooph/improoph)
 

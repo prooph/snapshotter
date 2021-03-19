@@ -18,9 +18,12 @@ use Prooph\EventSourcing\Aggregate\AggregateRepository;
 use Prooph\EventSourcing\Aggregate\AggregateTranslator;
 use Prooph\SnapshotStore\SnapshotStore;
 use Prooph\Snapshotter\SnapshotReadModel;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 class SnapshotReadModelTest extends TestCase
 {
+    use ProphecyTrait;
+
     /**
      * @var SnapshotReadModel
      */
