@@ -2,8 +2,8 @@
 
 /**
  * This file is part of prooph/snapshotter.
- * (c) 2015-2018 prooph software GmbH <contact@prooph.de>
- * (c) 2015-2018 Sascha-Oliver Prolic <saschaprolic@googlemail.com>
+ * (c) 2015-2021 prooph software GmbH <contact@prooph.de>
+ * (c) 2015-2021 Sascha-Oliver Prolic <saschaprolic@googlemail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -18,9 +18,12 @@ use Prooph\EventSourcing\Aggregate\AggregateRepository;
 use Prooph\EventSourcing\Aggregate\AggregateTranslator;
 use Prooph\SnapshotStore\SnapshotStore;
 use Prooph\Snapshotter\SnapshotReadModel;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 class SnapshotReadModelTest extends TestCase
 {
+    use ProphecyTrait;
+
     /**
      * @var SnapshotReadModel
      */
